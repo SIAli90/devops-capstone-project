@@ -1,0 +1,49 @@
+Test Flask CLI Commands
+- It should call the db-create command
+
+Test Cases for Account Model
+- It should Create an account and add it to the database
+- It should Create an Account and assert that it exists
+- It should Delete an account from the database
+- It should Deserialize an account
+- It should not Deserialize an account with a KeyError
+- It should not Deserialize an account with a TypeError
+- It should Find an Account by name
+- It should List all Accounts in the database
+- It should Read an account
+- It should Serialize an account
+- It should Update an account
+
+Account Service Tests
+- It should not Create an Account when sending the wrong data
+- It should return a CORS header
+- It should Create a new Account
+- It should Delete an Account
+- It should Read a single Account
+- It should Get a list of Accounts
+- It should not Read an Account that is not found
+- It should be healthy
+- It should get 200_OK from the Home Page
+- It should not allow an illegal method call
+- It should return security headers
+- It should not Create an Account when sending the wrong media type
+- It should Update an existing Account
+- It should not Update an Account that is not found
+
+Name                               Stmts   Miss  Cover
+-----------------------------------------------------
+service/__init__.py                   22      3    86%
+service/common/__init__.py             0      0   100%
+service/common/cli_commands.py         7      0   100%
+service/common/error_handlers.py      32      3    91%
+service/common/log_handlers.py        10      1    90%
+service/common/status.py              46      0   100%
+service/config.py                     11      5    55%
+service/models.py                     69      3    96%
+service/routes.py                     58      0   100%
+-----------------------------------------------------
+TOTAL                                255     15    94%
+----------------------------------------------------------------------
+Ran 26 tests in 0.660s
+
+OK
