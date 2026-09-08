@@ -1,0 +1,2 @@
+$ curl -sS http://127.0.0.1:5000/accounts
+[{"address":"123 Main Street","date_joined":"2026-09-08","email":"john@example.com","id":12,"name":"John Doe","phone_number":"555-0100"}]
