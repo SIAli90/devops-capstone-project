@@ -63,9 +63,9 @@ class TestRestEvidence(TestCase):
     @staticmethod
     def _run(label, command):
         result = subprocess.run(command, capture_output=True, text=True, check=True)
-        print(f"\n===== {label} =====")
-        print("$ " + " ".join(command))
-        print(result.stdout.strip())
+        print(f"\n===== {label} =====", flush=True)
+        print("$ " + " ".join(command), flush=True)
+        print(result.stdout.strip(), flush=True)
         return result.stdout.strip()
 
     def test_rest_submission_evidence(self):
@@ -79,21 +79,22 @@ class TestRestEvidence(TestCase):
         create_out = self._run(
             "REST_CREATE_DONE",
             [
-                "curl", "-sS", "-X", "POST", "http://127.0.0.1:5000/accounts",
+                "curl", "-sS", "-i", "-X", "POST", "http://127.0.0.1:5000/accounts",
                 "-H", "Content-Type: application/json",
                 "-d", json.dumps(payload),
             ],
         )
-        account_id = json.loads(create_out)["id"]
+        body_start = create_out.find("{")
+        account_id = json.loads(create_out[body_start:])["id"]
 
         self._run(
             "REST_LIST_DONE",
-            ["curl", "-sS", "http://127.0.0.1:5000/accounts"],
+            ["curl", "-sS", "-i", "http://127.0.0.1:5000/accounts"],
         )
 
         self._run(
             "REST_READ_DONE",
-            ["curl", "-sS", f"http://127.0.0.1:5000/accounts/{account_id}"],
+            ["curl", "-sS", "-i", f"http://127.0.0.1:5000/accounts/{account_id}"],
         )
 
         payload["name"] = "John Smith"
@@ -101,7 +102,7 @@ class TestRestEvidence(TestCase):
         self._run(
             "REST_UPDATE_DONE",
             [
-                "curl", "-sS", "-X", "PUT",
+                "curl", "-sS", "-i", "-X", "PUT",
                 f"http://127.0.0.1:5000/accounts/{account_id}",
                 "-H", "Content-Type: application/json",
                 "-d", json.dumps(payload),
