@@ -42,6 +42,18 @@ jobs:
           flake8 service --count --max-complexity=10 --max-line-length=127 --statistics
 
       - name: Run unit tests with nosetests
-        run: nosetests -v --with-coverage --cover-package=service
+        run: nosetests -v --with-coverage --cover-package=service tests/test_models.py tests/test_routes.py
         env:
+          DATABASE_URI: postgresql://postgres:pgs3cr3t@postgres:5432/testdb
+
+      - name: Verify application output on port 8080
+        run: |
+          python -m flask run --host=0.0.0.0 --port=8080 > /tmp/flask.log 2>&1 &
+          sleep 5
+          python - <<'PY'
+          import urllib.request
+          print(urllib.request.urlopen('http://127.0.0.1:8080/').read().decode().strip())
+          PY
+        env:
+          FLASK_APP: service:app
           DATABASE_URI: postgresql://postgres:pgs3cr3t@postgres:5432/testdb
